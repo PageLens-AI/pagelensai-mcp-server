@@ -1,0 +1,26 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.pagelens-ai/pagelensai-mcp-server",
+  "title": "PageLens AI",
+  "description": "AI website audit: security, SEO, performance, UX and accessibility checks with actionable fixes.",
+  "version": "1.0.0",
+  "websiteUrl": "https://www.pagelensai.com/mcp",
+  "repository": {
+    "url": "https://github.com/PageLens-AI/pagelensai-mcp-server",
+    "source": "github",
+    "id": "1219035576"
+  },
+  "icons": [
+    {
+      "src": "https://www.pagelensai.com/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://www.pagelensai.com/api/mcp"
+    }
+  ]
+}
