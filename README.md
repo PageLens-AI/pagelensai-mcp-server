@@ -218,3 +218,11 @@ PageLens uses a credit-based system — no subscription required for one-off aud
 - **Website:** https://www.pagelensai.com
 - **MCP endpoint:** `https://www.pagelensai.com/api/mcp`
 - **Dashboard:** https://www.pagelensai.com/dashboard
+- **GitHub:** https://github.com/PageLens-AI/pagelensai-mcp-server
+- **MCP docs:** https://www.pagelensai.com/mcp
+
+---
+
+## License
+
+MIT © [PageLens AI](https://www.pagelensai.com)
