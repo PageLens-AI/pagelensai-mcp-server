@@ -201,13 +201,15 @@ Findings include severity, effort estimate, copy-pasteable evidence, and a one-l
 
 ## Pricing
 
-PageLens uses a credit-based system — no subscription required for one-off audits:
+PageLens is pay-per-scan — no subscription required for one-off audits.
 
-| Credits | Pages |
-|---|---|
-| $1 | 3 pages |
-| $5 | 50 pages |
-| $15 | 200 pages |
+| Tier | Price | Pages per scan |
+|---|---|---|
+| **Starter** | $1 | 3 pages |
+| **Professional** | $15 | 25 pages |
+| **Monitor** | $5 / month | Weekly automated scans · 5 pages |
+
+Every tier produces the same full report — Starter through Professional differ only by page-count cap, not report depth. The Monitor subscription runs weekly scans automatically and surfaces drift between runs.
 
 [See full pricing →](https://www.pagelensai.com/#pricing)
 
