@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.pagelens-ai/pagelensai-mcp-server",
+  "name": "io.github.PageLens-AI/pagelensai-mcp-server",
   "title": "PageLens AI",
   "description": "AI website audit: security, SEO, performance, UX and accessibility checks with actionable fixes.",
   "version": "1.0.0",
