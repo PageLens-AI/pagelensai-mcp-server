@@ -60,7 +60,7 @@ Scopes granted on authorization:
 |---|---|
 | `read:scans` | List and read your scan results |
 | `read:findings` | Read findings and quick wins |
-| `write:feedback` | Submit false-positive reports |
+| `write:feedback` | Submit finding feedback and owner decisions |
 
 ---
 
@@ -166,6 +166,39 @@ Flag a finding as a false positive, wrong severity, wrong category, or not actio
 
 ---
 
+### `acknowledge_finding_decision`
+Attach owner-controlled context to a finding when the issue is real, but reflects an intentional architecture, security, or product tradeoff.
+
+This does **not** hide the finding, edit the report, or change the PageLens score. It records the rationale so the report can show that the owner has acknowledged the tradeoff, and future scans can recognise the same finding as previously acknowledged.
+
+```json
+{
+  "finding_id": "clxxxxxxxxxxxxxxx",
+  "decision": "INTENTIONAL_TRADEOFF",
+  "reason": "Next.js Cache Components and PPR currently prevent us from using per-request CSP nonces safely.",
+  "evidence": "proxy.ts documents the CSP tradeoff: script-src uses 'unsafe-inline' because cached HTML shells cannot vary nonces per request.",
+  "expires_at": "2026-10-01T00:00:00Z"
+}
+```
+
+**Decision kinds:** `ACKNOWLEDGED` · `ACCEPTED_RISK` · `INTENTIONAL_TRADEOFF` · `WONT_FIX_NOW`
+
+---
+
+### `clear_finding_decision`
+Clear a previously acknowledged decision so it stops appearing on current and future reports. The audit history is preserved.
+
+```json
+{
+  "decision_id": "clxxxxxxxxxxxxxxx",
+  "reason": "We have migrated to a nonce-compatible rendering path."
+}
+```
+
+You can also clear by `finding_id` when you do not have the `decision_id`.
+
+---
+
 ## What PageLens Checks
 
 Each scan runs a **deterministic rule engine + AI reviewer pipeline** across every page:
@@ -193,6 +226,9 @@ Findings include severity, effort estimate, copy-pasteable evidence, and a one-l
 
 **Security sweep:**
 > "List all SECURITY findings with severity HIGH or above from my last scan and show me the evidence for each."
+
+**Accepted architecture decision:**
+> "For the CSP unsafe-inline finding, acknowledge this as an intentional Next.js/PPR tradeoff with the rationale from our security docs. Do not mark it as a false positive."
 
 **Post-fix validation:**
 > "After I've fixed the findings, start a new scan and compare the score to the previous one."
