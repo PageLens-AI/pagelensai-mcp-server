@@ -2,7 +2,7 @@
 
 > AI agents can run senior-level website audits in seconds.
 
-An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that gives AI agents direct access to [PageLens AI](https://www.pagelensai.com) — automated website reviews covering UX, SEO, Performance, Accessibility, Security, and Conversion.
+An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that gives AI agents direct access to [PageLens AI](https://www.pagelensai.com) — automated website reviews covering UX, SEO, Performance, Accessibility, Security, Conversion, and QA journey audits.
 
 Plug it into Cursor, Claude, or any MCP-compatible client and your agent can read scan results, drill into findings, surface quick wins, and close the fix loop — all without leaving the IDE.
 
@@ -87,7 +87,7 @@ List the domains you've verified ownership of, along with badge tier and the sca
 ---
 
 ### `list_scans`
-List your most recent PageLens scans. Filter by status, domain, or date. Returns a slim summary per scan (id, URL, score, grade, severity counts).
+List your most recent PageLens scans. Filter by status, domain, or date. Returns a slim summary per scan (id, URL, score, grade, severity counts). QA Audit scans include a compact `qaAudit` summary with confidence, journey-step count, pages reviewed versus page budget, blocked/needs-review step counts, auth-profile status, and the reason fewer than the page budget were captured when the safe same-origin link graph is exhausted.
 
 ```json
 {
@@ -103,12 +103,32 @@ List your most recent PageLens scans. Filter by status, domain, or date. Returns
 ---
 
 ### `get_scan`
-Read the full summary for a single scan: score, grade, severity counts, executive summary, top-5 highest-priority findings, and per-persona reviews.
+Read the full summary for a single scan: score, grade, severity counts, executive summary, top-5 highest-priority findings, and per-persona reviews. For QA Audit scans, `get_scan` also returns a `qaAudit` block containing the product-flow synthesis, journey replay, safe blocked actions, confidence, authenticated-route context, and page-budget coverage.
 
 ```json
 {
   "scan_id": "clxxxxxxxxxxxxxxx"
 }
+```
+
+---
+
+## Available Resources
+
+### `pagelensai://scan/{id}/markdown`
+Fetch the same agent-flavoured Markdown report available from the PageLens UI. For QA Audit scans, this includes front matter such as `qa_journey_event_count`, `qa_confidence`, and `qa_needs_review_step_count`, followed by the application interpretation, journey replay, blocked/risky paths, safe actions, and next QA tests.
+
+Use this when an agent needs rich context to reason about a QA Audit:
+
+```text
+pagelensai://scan/clxxxxxxxxxxxxxxx/markdown
+```
+
+### `pagelensai://scan/{id}/summary.json`
+Fetch compact JSON for a scan. For QA Audit scans, the `qaAudit` object includes journey metadata, synthesis, page-budget coverage, and any `queue_exhausted` reason explaining why fewer than the purchased page count were discoverable.
+
+```text
+pagelensai://scan/clxxxxxxxxxxxxxxx/summary.json
 ```
 
 ---
@@ -211,8 +231,11 @@ Each scan runs a **deterministic rule engine + AI reviewer pipeline** across eve
 | **Accessibility** | Focus-visible CSS, reduced-motion support, ARIA patterns |
 | **UX** | Hero hierarchy, mobile menu patterns, CTA structure |
 | **Content** | Placeholder text, stale copyright year, mixed-content references |
+| **QA Audit** | Journey replay, safe form/input exploration, blocked risky actions, app-flow synthesis, page-budget coverage |
 
 Findings include severity, effort estimate, copy-pasteable evidence, and a one-line fix suggestion.
+
+QA Audit scans are different from standard technical scans: the primary artifact is the agentic journey report. PageLens will attempt to review the purchased page budget (for example, up to 10 pages on QA Audit) and should only return fewer pages when the safe same-origin link graph is exhausted. It can use validated auth profiles for scoped post-login routes, while still avoiding SSO, CAPTCHA, MFA, signup, payment, destructive changes, and other committing actions.
 
 ---
 
@@ -233,6 +256,9 @@ Findings include severity, effort estimate, copy-pasteable evidence, and a one-l
 **Post-fix validation:**
 > "After I've fixed the findings, start a new scan and compare the score to the previous one."
 
+**QA Audit review:**
+> "Fetch the latest QA Audit for example.com, read the markdown resource, and tell me which user journeys were verified, which actions were blocked safely, and whether PageLens reviewed the full page budget."
+
 ---
 
 ## Pricing
@@ -242,10 +268,11 @@ PageLens is pay-per-scan — no subscription required for one-off audits.
 | Tier | Price | Pages per scan |
 |---|---|---|
 | **Starter** | $1 | 3 pages |
+| **QA Audit** | $10 | Up to 10 pages · agentic journey review |
 | **Professional** | $15 | 25 pages |
 | **Monitor** | $5 / month | Weekly automated scans · 5 pages |
 
-Every tier produces the same full report — Starter through Professional differ only by page-count cap, not report depth. The Monitor subscription runs weekly scans automatically and surfaces drift between runs.
+Every technical scan tier produces the same full report — Starter through Professional differ only by page-count cap, not report depth. QA Audit produces a journey-first report focused on application flow, safe exploration, design/UX critique, and next QA tests. The Monitor subscription runs weekly scans automatically and surfaces drift between runs.
 
 [See full pricing →](https://www.pagelensai.com/#pricing)
 
