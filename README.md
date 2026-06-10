@@ -1,10 +1,10 @@
-# PageLens AI — MCP Server
+# PageLens AI - MCP Server
 
-> AI agents can run senior-level website audits in seconds.
+> Connect PageLens AI reports to Claude, Cursor, Codex, and other MCP clients so your AI assistant can understand what failed, why it matters, and what to fix next.
 
-An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that gives AI agents direct access to [PageLens AI](https://www.pagelensai.com) — automated website reviews covering UX, SEO, Performance, Accessibility, Security, Conversion, and QA journey audits.
+An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that gives AI agents direct access to [PageLens AI](https://www.pagelensai.com) - the independent launch reviewer for AI-built websites. PageLens AI turns launch risk across UX, SEO, Performance, Accessibility, Security, Conversion, and QA journey audits into plain-English priorities and agent-ready fix context.
 
-Plug it into Cursor, Claude, or any MCP-compatible client and your agent can read scan results, drill into findings, surface quick wins, and close the fix loop — all without leaving the IDE.
+Plug it into Cursor, Claude, Codex, or any MCP-compatible client and your agent can read scan results, drill into findings, surface quick wins, record owner decisions, and help close the fix loop without leaving the IDE.
 
 ---
 
@@ -15,6 +15,16 @@ https://www.pagelensai.com/api/mcp
 ```
 
 This is a **remote MCP server** — no local install required.
+
+---
+
+## Which PageLens Path Is This?
+
+- **Launch Pack** is for founders, marketers, and AI builders who want a one-off repair loop: owner-first verdict, fix prompts for their AI builder, Markdown export, desktop + mobile review, and a re-scan.
+- **CLI/API/deploy hooks** are for Solo+ users who want PageLens AI to create scans from CI, release scripts, and client workflows.
+- **MCP** is for AI assistants that need to read a PageLens report, understand the evidence, and help you patch or triage findings.
+
+If you do not want to read technical detail, start in the PageLens web report and copy the fix prompt into Lovable, Bolt, Replit, Cursor, Codex, Claude, Copilot, or Windsurf. If you do want your coding agent to work directly with the report data, connect this MCP server.
 
 ---
 
@@ -42,10 +52,28 @@ Add to `claude_desktop_config.json`:
 {
   "mcpServers": {
     "pagelens": {
+      "type": "http",
       "url": "https://www.pagelensai.com/api/mcp"
     }
   }
 }
+```
+
+### Codex CLI
+
+Add to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.pagelens]
+url = "https://www.pagelensai.com/api/mcp"
+```
+
+### Generic / other clients
+
+Use the streamable HTTP endpoint:
+
+```text
+https://www.pagelensai.com/api/mcp
 ```
 
 ---
@@ -241,6 +269,9 @@ QA Audit scans are different from standard technical scans: the primary artifact
 
 ## Example Agent Workflows
 
+**Fix with my AI builder:**
+> "Read the latest PageLens Launch Pack report for example.com, list the top 3 owner-risk fixes, and turn each one into a patch plan I can apply in this repo."
+
 **Pre-launch audit in Cursor:**
 > "Run PageLens on my staging site, list all CRITICAL and HIGH findings, and create GitHub issues for the top 5."
 
@@ -263,18 +294,26 @@ QA Audit scans are different from standard technical scans: the primary artifact
 
 ## Pricing
 
-PageLens is pay-per-scan — no subscription required for one-off audits.
+PageLens AI supports one-off launch reviews and ongoing plan automation.
 
-| Tier | Price | Pages per scan |
-|---|---|---|
-| **Starter** | $1 | 3 pages |
-| **QA Audit** | $10 | Up to 10 pages · agentic journey review |
-| **Professional** | $15 | 25 pages |
-| **Monitor** | $5 / month | Weekly automated scans · 5 pages |
+| Product | Price | Best for |
+|---|---:|---|
+| **Launch Scan** | $1 | Quick 3-page pre-launch check |
+| **QA Audit** | $10 | Agentic public-app journey review across up to 10 pages |
+| **Full Site Scan** | $15 | Broader 25-page site review |
+| **Launch Pack** | $29 | Serious AI builders who want desktop + mobile, up to 15 pages, AI-builder fix prompts, Markdown export, and one re-scan |
 
-Every technical scan tier produces the same full report — Starter through Professional differ only by page-count cap, not report depth. QA Audit produces a journey-first report focused on application flow, safe exploration, design/UX critique, and next QA tests. The Monitor subscription runs weekly scans automatically and surfaces drift between runs.
+MCP access is included with paid reports so an agent can work from the same evidence the owner sees. Continuous Health Watch monitoring, API keys, CLI scans, GitHub Actions, deploy hooks, competitors, alerts, and team/client seats are plan features:
 
-[See full pricing →](https://www.pagelensai.com/#pricing)
+| Plan | Price | Why upgrade |
+|---|---:|---|
+| **Solo** | $19/mo | 3 sites, Health Watch, larger monthly scan allowance, Solo+ automation |
+| **Pro** | $49/mo | More sites, Slack/webhook alerts, competitors, and team workflow scale |
+| **Agency** | $149/mo | Many client sites, higher quotas, more seats, priority support |
+
+There is no separate new-user Monitor product in the current pricing model. Health Watch is included with paid account plans; legacy monitor rows may still exist for existing customers.
+
+[See full pricing ->](https://www.pagelensai.com/pricing)
 
 ---
 

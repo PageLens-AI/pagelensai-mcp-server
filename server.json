@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.PageLens-AI/pagelensai-mcp-server",
   "title": "PageLens AI",
-  "description": "AI website audits and QA journey reports: security, SEO, performance, UX, accessibility, safe flow exploration, and actionable fixes.",
+  "description": "Independent launch reviews for AI-built websites: read PageLens AI reports, security/SEO/UX/performance findings, QA journeys, and agent-ready fixes.",
   "version": "1.0.0",
   "websiteUrl": "https://www.pagelensai.com/mcp",
   "repository": {
