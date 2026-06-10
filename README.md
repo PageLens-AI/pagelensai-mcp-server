@@ -22,7 +22,7 @@ This is a **remote MCP server** — no local install required.
 
 - **Launch Pack** is for founders, marketers, and AI builders who want a one-off repair loop: owner-first verdict, fix prompts for their AI builder, Markdown export, desktop + mobile review, and a re-scan.
 - **CLI/API/deploy hooks** are for Solo+ users who want PageLens AI to create scans from CI, release scripts, and client workflows.
-- **MCP** is for AI assistants that need to read a PageLens report, understand the evidence, and help you patch or triage findings.
+- **MCP** is for AI assistants that need to read a PageLens report, understand the owner launch verdict, inspect the evidence, and help you patch or triage findings.
 
 If you do not want to read technical detail, start in the PageLens web report and copy the fix prompt into Lovable, Bolt, Replit, Cursor, Codex, Claude Code, Copilot, or Windsurf. If you do want your coding agent to work directly with the report data, connect this MCP server.
 
@@ -115,7 +115,7 @@ List the domains you've verified ownership of, along with badge tier and the sca
 ---
 
 ### `list_scans`
-List your most recent PageLens scans. Filter by status, domain, or date. Returns a slim summary per scan (id, URL, score, grade, severity counts). Scans may include `launchContext` with `builderPlatform` and `launchMoment` so agents can frame fixes for the owner's workflow without changing evidence or severity. QA Audit scans include a compact `qaAudit` summary with confidence, journey-step count, pages reviewed versus page budget, blocked/needs-review step counts, auth-profile status, and the reason fewer than the page budget were captured when the safe same-origin link graph is exhausted.
+List your most recent PageLens scans. Filter by status, domain, or date. Returns a slim summary per scan (id, URL, score, grade, severity counts, and `launchVerdict`). Scans may include `launchContext` with `builderPlatform` and `launchMoment` so agents can frame fixes for the owner's workflow without changing evidence or severity. QA Audit scans include a compact `qaAudit` summary with confidence, journey-step count, pages reviewed versus page budget, blocked/needs-review step counts, auth-profile status, and the reason fewer than the page budget were captured when the safe same-origin link graph is exhausted.
 
 ```json
 {
@@ -131,7 +131,7 @@ List your most recent PageLens scans. Filter by status, domain, or date. Returns
 ---
 
 ### `get_scan`
-Read the full summary for a single scan: score, grade, severity counts, launch context, executive summary, top-5 highest-priority findings, and per-persona reviews. For QA Audit scans, `get_scan` also returns a `qaAudit` block containing the product-flow synthesis, journey replay, safe blocked actions, confidence, authenticated-route context, and page-budget coverage.
+Read the full summary for a single scan: score, grade, owner-first `launchVerdict`, severity counts, launch context, executive summary, top-5 highest-priority findings, and per-persona reviews. For QA Audit scans, `get_scan` also returns a `qaAudit` block containing the product-flow synthesis, journey replay, safe blocked actions, confidence, authenticated-route context, and page-budget coverage.
 
 ```json
 {
@@ -144,7 +144,7 @@ Read the full summary for a single scan: score, grade, severity counts, launch c
 ## Available Resources
 
 ### `pagelensai://scan/{id}/markdown`
-Fetch the same agent-flavoured Markdown report available from the PageLens UI. Standard reports include launch-context front matter such as `ai_builder` and `launch_moment` when captured, followed by an AI-builder priority prompt pack your agent can act on before it reaches the detailed evidence. For QA Audit scans, this includes front matter such as `qa_journey_event_count`, `qa_confidence`, and `qa_needs_review_step_count`, followed by the application interpretation, journey replay, blocked/risky paths, safe actions, and next QA tests.
+Fetch the same agent-flavoured Markdown report available from the PageLens UI. Standard reports include launch-context and verdict front matter such as `ai_builder`, `launch_moment`, `launch_verdict_status`, and `launch_verdict` when captured, followed by an `Owner launch verdict` section and an AI-builder priority prompt pack your agent can act on before it reaches the detailed evidence. For QA Audit scans, this includes front matter such as `qa_journey_event_count`, `qa_confidence`, and `qa_needs_review_step_count`, followed by the application interpretation, journey replay, blocked/risky paths, safe actions, and next QA tests.
 
 Use this when an agent needs rich context to reason about a QA Audit:
 
@@ -153,7 +153,7 @@ pagelensai://scan/clxxxxxxxxxxxxxxx/markdown
 ```
 
 ### `pagelensai://scan/{id}/summary.json`
-Fetch compact JSON for a scan. For QA Audit scans, the `qaAudit` object includes journey metadata, synthesis, page-budget coverage, and any `queue_exhausted` reason explaining why fewer than the purchased page count were discoverable.
+Fetch compact JSON for a scan. Standard scans include the same `launchVerdict` object returned by `list_scans` and `get_scan`: status, label, headline, summary, and next step. For QA Audit scans, the `qaAudit` object includes journey metadata, synthesis, page-budget coverage, and any `queue_exhausted` reason explaining why fewer than the purchased page count were discoverable.
 
 ```text
 pagelensai://scan/clxxxxxxxxxxxxxxx/summary.json
@@ -276,7 +276,7 @@ QA Audit scans are different from standard technical scans: the primary artifact
 > "Open the latest PageLens report. If it was built with Codex or Cursor and the launch moment is Product Hunt, prioritise the fixes that make it safe to post publicly, then give me exact patches."
 
 **Pre-launch audit in Cursor:**
-> "Run PageLens on my staging site, list all CRITICAL and HIGH findings, and create GitHub issues for the top 5."
+> "Use the latest PageLens scan for my staging site, list all CRITICAL and HIGH findings, and create GitHub issues for the top 5."
 
 **CRO review:**
 > "Fetch the latest scan for example.com, get the CONVERSION quick wins, and summarise what to fix before the campaign launch."
@@ -288,7 +288,12 @@ QA Audit scans are different from standard technical scans: the primary artifact
 > "For the CSP unsafe-inline finding, acknowledge this as an intentional Next.js/PPR tradeoff with the rationale from our security docs. Do not mark it as a false positive."
 
 **Post-fix validation:**
-> "After I've fixed the findings, start a new scan and compare the score to the previous one."
+> "I re-ran PageLens from the CLI/API after fixing the findings. Compare the latest scan to the previous one and tell me what improved, regressed, or still needs work."
+
+MCP reads and works with report data through OAuth. To create a new scan from
+automation, use the PageLens CLI, API, GitHub Action, or deploy hooks with a
+Solo+ plan; then ask your MCP-connected assistant to inspect the completed
+report.
 
 **QA Audit review:**
 > "Fetch the latest QA Audit for example.com, read the markdown resource, and tell me which user journeys were verified, which actions were blocked safely, and whether PageLens reviewed the full page budget."
