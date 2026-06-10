@@ -1,10 +1,10 @@
 # PageLens AI - MCP Server
 
-> Connect PageLens AI reports to Claude, Cursor, Codex, and other MCP clients so your AI assistant can understand what failed, why it matters, and what to fix next.
+> Connect PageLens AI reports to Claude Desktop, Cursor, Codex, and other MCP clients so your AI assistant can understand what failed, why it matters, and what to fix next.
 
 An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that gives AI agents direct access to [PageLens AI](https://www.pagelensai.com) - the independent launch reviewer for AI-built websites. PageLens AI turns launch risk across UX, SEO, Performance, Accessibility, Security, Conversion, and QA journey audits into plain-English priorities and agent-ready fix context.
 
-Plug it into Cursor, Claude, Codex, or any MCP-compatible client and your agent can read scan results, drill into findings, surface quick wins, record owner decisions, and help close the fix loop without leaving the IDE.
+Plug it into Cursor, Claude Desktop, Codex, or any MCP-compatible client and your agent can read scan results, drill into findings, surface quick wins, record owner decisions, and help close the fix loop without leaving the IDE.
 
 ---
 
@@ -24,7 +24,7 @@ This is a **remote MCP server** — no local install required.
 - **CLI/API/deploy hooks** are for Solo+ users who want PageLens AI to create scans from CI, release scripts, and client workflows.
 - **MCP** is for AI assistants that need to read a PageLens report, understand the evidence, and help you patch or triage findings.
 
-If you do not want to read technical detail, start in the PageLens web report and copy the fix prompt into Lovable, Bolt, Replit, Cursor, Codex, Claude, Copilot, or Windsurf. If you do want your coding agent to work directly with the report data, connect this MCP server.
+If you do not want to read technical detail, start in the PageLens web report and copy the fix prompt into Lovable, Bolt, Replit, Cursor, Codex, Claude Code, Copilot, or Windsurf. If you do want your coding agent to work directly with the report data, connect this MCP server.
 
 ---
 
@@ -144,7 +144,7 @@ Read the full summary for a single scan: score, grade, severity counts, launch c
 ## Available Resources
 
 ### `pagelensai://scan/{id}/markdown`
-Fetch the same agent-flavoured Markdown report available from the PageLens UI. Standard reports include launch-context front matter such as `ai_builder` and `launch_moment` when captured. For QA Audit scans, this includes front matter such as `qa_journey_event_count`, `qa_confidence`, and `qa_needs_review_step_count`, followed by the application interpretation, journey replay, blocked/risky paths, safe actions, and next QA tests.
+Fetch the same agent-flavoured Markdown report available from the PageLens UI. Standard reports include launch-context front matter such as `ai_builder` and `launch_moment` when captured, followed by an AI-builder priority prompt pack your agent can act on before it reaches the detailed evidence. For QA Audit scans, this includes front matter such as `qa_journey_event_count`, `qa_confidence`, and `qa_needs_review_step_count`, followed by the application interpretation, journey replay, blocked/risky paths, safe actions, and next QA tests.
 
 Use this when an agent needs rich context to reason about a QA Audit:
 
