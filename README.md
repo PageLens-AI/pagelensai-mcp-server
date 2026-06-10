@@ -115,7 +115,7 @@ List the domains you've verified ownership of, along with badge tier and the sca
 ---
 
 ### `list_scans`
-List your most recent PageLens scans. Filter by status, domain, or date. Returns a slim summary per scan (id, URL, score, grade, severity counts). QA Audit scans include a compact `qaAudit` summary with confidence, journey-step count, pages reviewed versus page budget, blocked/needs-review step counts, auth-profile status, and the reason fewer than the page budget were captured when the safe same-origin link graph is exhausted.
+List your most recent PageLens scans. Filter by status, domain, or date. Returns a slim summary per scan (id, URL, score, grade, severity counts). Scans may include `launchContext` with `builderPlatform` and `launchMoment` so agents can frame fixes for the owner's workflow without changing evidence or severity. QA Audit scans include a compact `qaAudit` summary with confidence, journey-step count, pages reviewed versus page budget, blocked/needs-review step counts, auth-profile status, and the reason fewer than the page budget were captured when the safe same-origin link graph is exhausted.
 
 ```json
 {
@@ -131,7 +131,7 @@ List your most recent PageLens scans. Filter by status, domain, or date. Returns
 ---
 
 ### `get_scan`
-Read the full summary for a single scan: score, grade, severity counts, executive summary, top-5 highest-priority findings, and per-persona reviews. For QA Audit scans, `get_scan` also returns a `qaAudit` block containing the product-flow synthesis, journey replay, safe blocked actions, confidence, authenticated-route context, and page-budget coverage.
+Read the full summary for a single scan: score, grade, severity counts, launch context, executive summary, top-5 highest-priority findings, and per-persona reviews. For QA Audit scans, `get_scan` also returns a `qaAudit` block containing the product-flow synthesis, journey replay, safe blocked actions, confidence, authenticated-route context, and page-budget coverage.
 
 ```json
 {
@@ -144,7 +144,7 @@ Read the full summary for a single scan: score, grade, severity counts, executiv
 ## Available Resources
 
 ### `pagelensai://scan/{id}/markdown`
-Fetch the same agent-flavoured Markdown report available from the PageLens UI. For QA Audit scans, this includes front matter such as `qa_journey_event_count`, `qa_confidence`, and `qa_needs_review_step_count`, followed by the application interpretation, journey replay, blocked/risky paths, safe actions, and next QA tests.
+Fetch the same agent-flavoured Markdown report available from the PageLens UI. Standard reports include launch-context front matter such as `ai_builder` and `launch_moment` when captured. For QA Audit scans, this includes front matter such as `qa_journey_event_count`, `qa_confidence`, and `qa_needs_review_step_count`, followed by the application interpretation, journey replay, blocked/risky paths, safe actions, and next QA tests.
 
 Use this when an agent needs rich context to reason about a QA Audit:
 
@@ -271,6 +271,9 @@ QA Audit scans are different from standard technical scans: the primary artifact
 
 **Fix with my AI builder:**
 > "Read the latest PageLens Launch Pack report for example.com, list the top 3 owner-risk fixes, and turn each one into a patch plan I can apply in this repo."
+
+**Respect launch context:**
+> "Open the latest PageLens report. If it was built with Codex or Cursor and the launch moment is Product Hunt, prioritise the fixes that make it safe to post publicly, then give me exact patches."
 
 **Pre-launch audit in Cursor:**
 > "Run PageLens on my staging site, list all CRITICAL and HIGH findings, and create GitHub issues for the top 5."
