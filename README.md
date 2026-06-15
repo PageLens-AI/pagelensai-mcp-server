@@ -21,7 +21,7 @@ This is a **remote MCP server** — no local install required.
 ## Which PageLens Path Is This?
 
 - **Launch Pack** is for founders, marketers, and AI builders who want a one-off repair loop: owner-first verdict, fix prompts for their AI builder, Markdown export, desktop + mobile review, and a re-scan.
-- **CLI/API/deploy hooks** are for Solo+ users who want PageLens AI to create scans from CI, release scripts, and client workflows.
+- **CLI/API/deploy hooks** are for Pro+ users who want PageLens AI to create scans from CI, release scripts, and client workflows.
 - **MCP** is for AI assistants that need to read a PageLens report, understand the owner launch verdict, inspect the evidence, and help you patch or triage findings.
 
 If you do not want to read technical detail, start in the PageLens web report and copy the fix prompt into Lovable, Bolt, Replit, Cursor, Codex, Claude Code, Copilot, or Windsurf. If you do want your coding agent to work directly with the report data, connect this MCP server.
@@ -292,7 +292,7 @@ QA Audit scans are different from standard technical scans: the primary artifact
 
 MCP reads and works with report data through OAuth. To create a new scan from
 automation, use the PageLens CLI, API, GitHub Action, or deploy hooks with a
-Solo+ plan; then ask your MCP-connected assistant to inspect the completed
+Pro+ plan; then ask your MCP-connected assistant to inspect the completed
 report.
 
 **QA Audit review:**
@@ -306,18 +306,20 @@ PageLens AI supports one-off launch reviews and ongoing plan automation.
 
 | Product | Price | Best for |
 |---|---:|---|
-| **Launch Scan** | $1 | Quick 3-page pre-launch check |
+| **Free Launch Check** | Free | Owner verdict, one issue preview, one AI-builder prompt |
+| **Fix Pack** | $9 | One-page full fix loop with a verification re-scan |
 | **QA Audit** | $10 | Agentic public-app journey review across up to 10 pages |
-| **Full Site Scan** | $15 | Broader 25-page site review |
 | **Launch Pack** | $29 | Serious AI builders who want desktop + mobile, up to 15 pages, AI-builder fix prompts, Markdown export, and one re-scan |
+| **Data-Safe Launch Pack** | $79 | Launches collecting emails, payments, uploads, accounts, bookings, private data or client trust |
 
 MCP access is included with paid reports so an agent can work from the same evidence the owner sees. Continuous Health Watch monitoring, API keys, CLI scans, GitHub Actions, deploy hooks, competitors, alerts, and team/client seats are plan features:
 
 | Plan | Price | Why upgrade |
 |---|---:|---|
-| **Solo** | $19/mo | 3 sites, Health Watch, larger monthly scan allowance, Solo+ automation |
-| **Pro** | $49/mo | More sites, Slack/webhook alerts, competitors, and team workflow scale |
-| **Agency** | $149/mo | Many client sites, higher quotas, more seats, priority support |
+| **Watch** | $9/mo | 1 live app, weekly Health Watch, email alerts and badge freshness |
+| **Builder** | $39/mo | 3 sites, weekly monitoring, manual scans and deeper audits |
+| **Pro** | $99/mo | More sites, Slack/webhook alerts, competitors, API/CLI/deploy automation and team workflow scale |
+| **Agency** | $299/mo | Many client sites, higher quotas, more seats, client workflows and priority support |
 
 There is no separate new-user Monitor product in the current pricing model. Health Watch is included with paid account plans; legacy monitor rows may still exist for existing customers.
 
